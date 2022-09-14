@@ -2,10 +2,14 @@
 // imports
 import { ref } from "vue";
 import CartItem from "./CartItem.vue";
-import products from "@/data/products.json";
-import cartItems from "@/data/cart.json";
+//import products from "@/data/products.json";
+//import cartItems from "@/data/cart.json";
+import { useCartStore } from "@/stores/CartStore";
+import { useProductStore } from "@/stores/ProductStore";
 
 // data
+const { items: cartItems } = useCartStore();
+const productStore = useProductStore();
 const active = ref(false);
 </script>
 <template>
@@ -21,7 +25,8 @@ const active = ref(false);
         <ul class="items-in-cart">
           <CartItem
             v-for="item in cartItems"
-            :product="products.find((p) => item.id === p.id)"
+            :key="item.id"
+            :product="productStore.products.find((p) => item.id === p.id)"
             :count="item.count"
             @updateCount=""
             @clear=""
